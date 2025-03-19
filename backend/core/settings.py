@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-o32f*&+#84#1%!y^*lvg3tyrvxe#dl9wtn%a#(#l@&ah9aa=s0
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
 
@@ -42,8 +42,11 @@ INSTALLED_APPS = [
     
     # Third-party apps
     'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
     
     # Local apps
+    'accounts',
     'chat',
 ]
 
@@ -149,3 +152,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 CORS_ALLOW_CREDENTIALS = True
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'UNAUTHENTICATED_USER': None,  # Return None for unauthenticated requests
+}
