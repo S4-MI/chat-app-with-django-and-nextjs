@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ChatProvider } from "@/context/ChatContext";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,8 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                    <ChatProvider>{children}</ChatProvider>
+                    <Toaster />
+                    {children}
                 </ThemeProvider>
             </body>
         </html>
