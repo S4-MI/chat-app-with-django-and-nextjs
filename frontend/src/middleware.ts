@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Protected routes - require authentication
-const protectedRoutes = ["/app"];
+const protectedRoutes = ["/app", "/app/chat"];
 
 // Auth routes - redirect to dashboard if already logged in
 const authRoutes = ["/login", "/register"];

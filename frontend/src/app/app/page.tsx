@@ -1,38 +1,36 @@
-import { getUserProfile } from "@/action/auth-action";
-import SignOutButton from "@/components/auth/SignOutButton";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { redirect } from "next/navigation";
+import { ConversationList } from "@/components/chat/ConversationList";
+import { ChatContainer } from "@/components/chat/ChatContainer";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { MessageCircle } from "lucide-react";
 
-export default async function AppPage() {
-    const { response, error } = await getUserProfile();
+type Props = {
+    searchParams: {
+        id?: string;
+    };
+};
 
-    if (error || !response) {
-        redirect("/");
-    }
-
+export default function AppPage({ searchParams }: Props) {
     return (
-        <div className="container mx-auto py-8 max-w-4xl">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-2xl">Welcome to the App</CardTitle>
-                    <CardDescription>You are now logged in</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-4">
-                        <div>
-                            <h3 className="font-medium">Name</h3>
-                            <p>{response.name || "Not provided"}</p>
+        <div className="h-screen w-full bg-background p-10">
+            <ResizablePanelGroup direction="horizontal" className="h-full border rounded-lg">
+                <ResizablePanel defaultSize={25} minSize={20} maxSize={40} className="border-r">
+                    <div className="h-full flex flex-col">
+                        <div className="p-4 border-b bg-muted/40">
+                            <h2 className="text-lg font-semibold flex items-center gap-2">
+                                <MessageCircle className="h-5 w-5" />
+                                Conversations
+                            </h2>
                         </div>
-                        <div>
-                            <h3 className="font-medium">Email</h3>
-                            <p>{response.email || "Not provided"}</p>
+                        <div className="flex-1 overflow-auto">
+                            <ConversationList />
                         </div>
                     </div>
-                </CardContent>
-                <CardFooter>
-                    <SignOutButton />
-                </CardFooter>
-            </Card>
+                </ResizablePanel>
+                <ResizableHandle withHandle />
+                <ResizablePanel defaultSize={75}>
+                    <ChatContainer conversationId={searchParams.id} />
+                </ResizablePanel>
+            </ResizablePanelGroup>
         </div>
     );
 }

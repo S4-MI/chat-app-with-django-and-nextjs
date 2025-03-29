@@ -1,8 +1,16 @@
 from django.contrib import admin
-from .models import ChatMessage
+from .models import Conversation, Message
 
-@admin.register(ChatMessage)
-class ChatMessageAdmin(admin.ModelAdmin):
-    list_display = ('username', 'message', 'timestamp')
-    search_fields = ('username', 'message')
-    list_filter = ('timestamp',) 
+
+@admin.register(Conversation)
+class ConversationAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "is_group", "created_at", "updated_at")
+    search_fields = ("title",)
+    list_filter = ("is_group", "created_at")
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ("id", "sender", "content", "conversation", "created_at")
+    search_fields = ("sender__username", "content", "conversation__title")
+    list_filter = ("created_at",)

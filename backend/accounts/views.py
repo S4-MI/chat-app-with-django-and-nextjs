@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,7 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 
 from accounts.models import User
 from accounts.services import UserService
-from accounts.serializers import RegisterSerializer, LoginSerializer, UserSerializer
+from accounts.serializers import RegisterSerializer, LoginSerializer, UserSerializer, UserMinimalSerializer
 
 
 class RegisterView(CreateAPIView):
@@ -76,3 +76,13 @@ class UserProfileView(RetrieveAPIView):
     
     def get_object(self):
         return self.request.user
+
+
+class UserListView(ListAPIView):
+    """List all users for conversation selection"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserMinimalSerializer
+    
+    def get_queryset(self):
+        # Exclude the requesting user
+        return User.objects.exclude(id=self.request.user.id)
