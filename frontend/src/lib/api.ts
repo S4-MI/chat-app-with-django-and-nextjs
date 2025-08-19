@@ -5,7 +5,7 @@ type ApiRequestInit = RequestInit & {
 };
 
 // API base URL - adjust this based on your environment configuration
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 /**
  * Authenticated fetch function that:
